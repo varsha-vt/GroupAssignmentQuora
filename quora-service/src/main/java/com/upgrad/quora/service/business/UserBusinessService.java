@@ -29,12 +29,15 @@ public class UserBusinessService {
     @Transactional(propagation = Propagation.REQUIRED)
     public User signup(User user) throws SignUpRestrictedException {
 
+        // 'SGR-001'
         if (userDao.getUserByUserName(user.getUserName()) != null) {
             throw new SignUpRestrictedException("SGR-001", "Try any other Username, this Username has already been taken");
         }
+        // 'SGR-002'
         if (userDao.getUserByEmail(user.getEmail()) != null) {
             throw new SignUpRestrictedException("SGR-002", "This user has already been registered, try with any other emailId");
         }
+
         String password = user.getPassword();
         if (password != null) {
             String[] encryptedText = cryptographyProvider.encrypt(password);
