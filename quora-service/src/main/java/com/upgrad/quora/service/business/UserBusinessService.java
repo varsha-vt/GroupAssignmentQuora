@@ -1,13 +1,20 @@
 package com.upgrad.quora.service.business;
 
+import com.upgrad.quora.service.common.GenericErrorCode;
+import com.upgrad.quora.service.common.UnexpectedException;
 import com.upgrad.quora.service.dao.UserDao;
 import com.upgrad.quora.service.entity.User;
+import com.upgrad.quora.service.entity.UserAuthEntity;
 import com.upgrad.quora.service.exception.AuthenticationFailedException;
+import com.upgrad.quora.service.exception.SignOutRestrictedException;
+import com.upgrad.quora.service.exception.SignUpRestrictedException;
+import com.upgrad.quora.service.util.QuoraUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.ZonedDateTime;
 import java.util.Base64;
 
 @Service
@@ -20,7 +27,7 @@ public class UserBusinessService {
     private PasswordCryptographyProvider cryptographyProvider;
 
     @Transactional(propagation = Propagation.REQUIRED)
-    public User signup(User user){
+    public User signup(User user) throws SignUpRestrictedException {
 
         if (userDao.getUserByUserName(user.getUserName()) != null) {
             throw new SignUpRestrictedException("SGR-001", "Try any other Username, this Username has already been taken");
@@ -74,5 +81,24 @@ public class UserBusinessService {
             GenericErrorCode genericErrorCode = GenericErrorCode.GEN_001;
             throw new UnexpectedException(genericErrorCode, ex);
         }
+    }
+
+    public Boolean isUserSessionValid(UserAuthEntity userAuthEntity) {
+        return (userAuthEntity != null && userAuthEntity.getLogoutAt() == null);
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    public String getUserUUID(String authorization) throws SignOutRestrictedException {
+        String[] bearerToken = authorization.split(QuoraUtil.BEARER_TOKEN);
+        if (bearerToken != null && bearerToken.length > 1) {
+            authorization = bearerToken[1];
+        }
+        UserAuthEntity userAuthEntity = userDao.getUserAuthToken(authorization);
+        if (isUserSessionValid(userAuthEntity)) {
+            userAuthEntity.setLogoutAt(ZonedDateTime.now());
+            userDao.updateUserAuthEntity(userAuthEntity);
+            return userAuthEntity.getUuid();
+        }
+        throw new SignOutRestrictedException("SGR-001", "User is not Signed in");
     }
 }
