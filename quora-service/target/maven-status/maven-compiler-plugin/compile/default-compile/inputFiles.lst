@@ -6,8 +6,11 @@ C:\Users\himanshuy\Downloads\pgdse\Projects\Quora\gProject\GroupAssignmentQuora\
 C:\Users\himanshuy\Downloads\pgdse\Projects\Quora\gProject\GroupAssignmentQuora\quora-service\src\main\java\com\upgrad\quora\service\exception\AuthorizationFailedException.java
 C:\Users\himanshuy\Downloads\pgdse\Projects\Quora\gProject\GroupAssignmentQuora\quora-service\src\main\java\com\upgrad\quora\service\exception\InvalidQuestionException.java
 C:\Users\himanshuy\Downloads\pgdse\Projects\Quora\gProject\GroupAssignmentQuora\quora-service\src\main\java\com\upgrad\quora\service\business\PasswordCryptographyProvider.java
+C:\Users\himanshuy\Downloads\pgdse\Projects\Quora\gProject\GroupAssignmentQuora\quora-service\src\main\java\com\upgrad\quora\service\entity\User.java
 C:\Users\himanshuy\Downloads\pgdse\Projects\Quora\gProject\GroupAssignmentQuora\quora-service\src\main\java\com\upgrad\quora\service\ServiceConfiguration.java
+C:\Users\himanshuy\Downloads\pgdse\Projects\Quora\gProject\GroupAssignmentQuora\quora-service\src\main\java\com\upgrad\quora\service\dao\UserDao.java
 C:\Users\himanshuy\Downloads\pgdse\Projects\Quora\gProject\GroupAssignmentQuora\quora-service\src\main\java\com\upgrad\quora\service\exception\SignUpRestrictedException.java
 C:\Users\himanshuy\Downloads\pgdse\Projects\Quora\gProject\GroupAssignmentQuora\quora-service\src\main\java\com\upgrad\quora\service\business\JwtTokenProvider.java
+C:\Users\himanshuy\Downloads\pgdse\Projects\Quora\gProject\GroupAssignmentQuora\quora-service\src\main\java\com\upgrad\quora\service\business\UserBusinessService.java
 C:\Users\himanshuy\Downloads\pgdse\Projects\Quora\gProject\GroupAssignmentQuora\quora-service\src\main\java\com\upgrad\quora\service\exception\AnswerNotFoundException.java
 C:\Users\himanshuy\Downloads\pgdse\Projects\Quora\gProject\GroupAssignmentQuora\quora-service\src\main\java\com\upgrad\quora\service\common\ErrorCode.java
