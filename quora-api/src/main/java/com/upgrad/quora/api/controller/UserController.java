@@ -68,5 +68,4 @@ public class UserController {
         return new ResponseEntity<SignoutResponse>(signoutResponse, HttpStatus.OK);
     }
 
-
 }
