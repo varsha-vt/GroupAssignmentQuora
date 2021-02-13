@@ -26,7 +26,6 @@ public class AdminBusinessService {
         final UserAuthEntity userAuthEntity = userBusinessService.validateUserAuthentication(authorization,
                 "User is signed out");
 
-        //check if logged user is admin or not
         if (!QuoraUtil.ADMIN_ROLE.equalsIgnoreCase(userAuthEntity.getUser().getRole())) {
             throw new AuthorizationFailedException("ATHR-003", "Unauthorized Access, Entered user is not an admin");
         }
