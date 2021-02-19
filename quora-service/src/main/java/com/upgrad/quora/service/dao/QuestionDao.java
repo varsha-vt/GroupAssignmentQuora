@@ -1,6 +1,7 @@
 package com.upgrad.quora.service.dao;
 
 import com.upgrad.quora.service.entity.Question;
+import com.upgrad.quora.service.entity.User;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -49,5 +50,9 @@ public class QuestionDao {
 
     public void deleteQuestion(Question questionEntity){
         entityManager.remove(questionEntity);
+    }
+
+    public List<Question> getAllUserQuestions(User user){
+        return entityManager.createNamedQuery("questionByUserId",Question.class).setParameter("user",user).getResultList();
     }
 }
