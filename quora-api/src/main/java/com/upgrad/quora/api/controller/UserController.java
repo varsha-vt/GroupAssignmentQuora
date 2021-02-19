@@ -43,6 +43,8 @@ public class UserController {
         user.setAboutMe(signupUserRequest.getAboutMe());
         user.setDob(signupUserRequest.getDob());
         user.setContactNumber(signupUserRequest.getContactNumber());
+        //role is missing
+        user.setRole("noadmin");
         final User createdUser = userBusinessService.signup(user);
         SignupUserResponse signupUserResponse = new SignupUserResponse();
         signupUserResponse.id(createdUser.getUuid()).status("USER SUCCESSFULLY REGISTERED");
