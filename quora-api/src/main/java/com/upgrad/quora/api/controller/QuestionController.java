@@ -55,9 +55,8 @@ public class QuestionController {
     @RequestMapping(method = RequestMethod.PUT, path = "/question/edit/{questionId}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<QuestionEditResponse> editQuestionContent(@RequestHeader("authorization") final String accessToken, @PathVariable("questionId") final String questionID, QuestionEditRequest questionEditRequest) throws AuthorizationFailedException, InvalidQuestionException {
         Question question = new Question();
-        question.setContent(questionEditRequest.getContent());
-        question.setUuid(questionID);
-        question = questionService.editQuestionContent(accessToken, questionID, question);
+        String content = questionEditRequest.getContent();
+        question = questionService.editQuestionContent(accessToken, questionID, content );
         QuestionEditResponse questionEditResponse = new QuestionEditResponse();
         questionEditResponse.setId(question.getUuid());
         questionEditResponse.setStatus("QUESTION EDITED");

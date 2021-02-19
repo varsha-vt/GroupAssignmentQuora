@@ -27,8 +27,8 @@ public class QuestionDao {
         }
     }
 
-    public Question editQuestion(Question questionEntity) {
-        return entityManager.merge(questionEntity);
+    public void editQuestion(Question questionEntity) {
+         entityManager.merge(questionEntity);
     }
 
     public Question getQuestionByUserId(String userId) {

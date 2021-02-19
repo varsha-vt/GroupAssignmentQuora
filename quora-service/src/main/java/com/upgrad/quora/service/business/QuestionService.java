@@ -42,20 +42,19 @@ public class QuestionService {
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
-    public Question editQuestionContent(String authorization, String questionID, Question questionEntity) throws AuthorizationFailedException, InvalidQuestionException {
+    public Question editQuestionContent(String authorization, String questionID, String editedContent) throws AuthorizationFailedException, InvalidQuestionException {
         UserAuthEntity userAuthEntity  = userBusinessService.validateUserAuthentication(authorization,"User is signed out.Sign in first to edit the question");
-        Question persistedQuestion = questionDao.getQuestionByUuid(questionID);
-        if(persistedQuestion == null) {
+        Question question = questionDao.getQuestionByUuid(questionID);
+        if(question == null) {
             throw new InvalidQuestionException("QUES-001","Entered question uuid does not exist");
         }
 
-        if(!persistedQuestion.getUser().getUuid().equals(userAuthEntity.getUser().getUuid())){
+        if(!question.getUser().getUuid().equals(userAuthEntity.getUser().getUuid())){
             throw new AuthorizationFailedException("ATHR-003","Only the question owner can edit the question");
         }
-
-//        questionEntity.setUser(userAuthEntity.getUser());
-//        questionEntity.setDate(ZonedDateTime.now());
-        return  questionDao.editQuestion(questionEntity);
+          question.setContent(editedContent);
+          questionDao.editQuestion(question);
+          return question;
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
