@@ -20,8 +20,8 @@ public class QuestionDao {
         return questionEntity;
     }
 
-    public List<Question> getAllQuestions(){
-        try{
+    public List<Question> getAllQuestions() {
+        try {
             return entityManager.createNamedQuery("getAllQuestions", Question.class).getResultList();
         } catch (NoResultException nre) {
             return null;
@@ -29,12 +29,12 @@ public class QuestionDao {
     }
 
     public void editQuestion(Question questionEntity) {
-         entityManager.merge(questionEntity);
+        entityManager.merge(questionEntity);
     }
 
     public Question getQuestionByUserId(String userId) {
         try {
-            return entityManager.createNamedQuery("questionByUserId",Question.class).setParameter("userId",userId).getSingleResult();
+            return entityManager.createNamedQuery("questionByUserId", Question.class).setParameter("userId", userId).getSingleResult();
         } catch (NoResultException nre) {
             return null;
         }
@@ -42,17 +42,17 @@ public class QuestionDao {
 
     public Question getQuestionByUuid(String uuid) {
         try {
-            return entityManager.createNamedQuery("questionByUUID",Question.class).setParameter("uuid",uuid).getSingleResult();
+            return entityManager.createNamedQuery("questionByUUID", Question.class).setParameter("uuid", uuid).getSingleResult();
         } catch (NoResultException nre) {
             return null;
         }
     }
 
-    public void deleteQuestion(Question questionEntity){
+    public void deleteQuestion(Question questionEntity) {
         entityManager.remove(questionEntity);
     }
 
-    public List<Question> getAllUserQuestions(User user){
-        return entityManager.createNamedQuery("questionByUserId",Question.class).setParameter("user",user).getResultList();
+    public List<Question> getAllUserQuestions(User user) {
+        return entityManager.createNamedQuery("questionByUserId", Question.class).setParameter("user", user).getResultList();
     }
 }
