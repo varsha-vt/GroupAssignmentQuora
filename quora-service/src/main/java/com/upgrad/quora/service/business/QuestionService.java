@@ -5,6 +5,7 @@ import com.upgrad.quora.service.dao.UserDao;
 import com.upgrad.quora.service.entity.Question;
 import com.upgrad.quora.service.entity.UserAuthEntity;
 import com.upgrad.quora.service.exception.AuthorizationFailedException;
+import com.upgrad.quora.service.exception.InvalidQuestionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -38,5 +39,38 @@ public class QuestionService {
     public List<Question> getAllQuestions(String authorization) throws AuthorizationFailedException {
         userBusinessService.validateUserAuthentication(authorization,"User is signed out.Sign in first to get all questions");
         return questionDao.getAllQuestions();
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    public Question editQuestionContent(String authorization, String questionID, Question questionEntity) throws AuthorizationFailedException, InvalidQuestionException {
+        UserAuthEntity userAuthEntity  = userBusinessService.validateUserAuthentication(authorization,"User is signed out.Sign in first to edit the question");
+        Question persistedQuestion = questionDao.getQuestionByUuid(questionID);
+        if(persistedQuestion == null) {
+            throw new InvalidQuestionException("QUES-001","Entered question uuid does not exist");
+        }
+
+        if(!persistedQuestion.getUser().getUuid().equals(userAuthEntity.getUser().getUuid())){
+            throw new AuthorizationFailedException("ATHR-003","Only the question owner can edit the question");
+        }
+
+//        questionEntity.setUser(userAuthEntity.getUser());
+//        questionEntity.setDate(ZonedDateTime.now());
+        return  questionDao.editQuestion(questionEntity);
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    public Question deleteQuestion(String authorization, String questionID) throws AuthorizationFailedException, InvalidQuestionException{
+        UserAuthEntity userAuthEntity = userBusinessService.validateUserAuthentication(authorization,"User is signed out.Sign in first to delete the question");
+
+        Question question = questionDao.getQuestionByUuid(questionID);
+        if(question == null){
+            throw new InvalidQuestionException("QUES-001", "Entered question uuid does not exist");
+        }
+        if(!question.getUser().getUuid().equals(userAuthEntity.getUser().getUuid()) && !userAuthEntity.getUser().getRole().equals("admin")) {
+            throw new AuthorizationFailedException("ATHR-003", "Only the question owner or admin can delete the question");
+        }
+        questionDao.deleteQuestion(question);
+
+        return question;
     }
 }
