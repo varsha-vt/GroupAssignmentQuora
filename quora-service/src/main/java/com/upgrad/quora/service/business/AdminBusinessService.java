@@ -20,7 +20,12 @@ public class AdminBusinessService {
     @Autowired
     private UserBusinessService userBusinessService;
 
+    /*
+    The methods in this class use the validateUserAuthentication method to validate the accessToken.
+    If token is valid the required business logic is implemented and the corresponding dao classes are called.
+ */
 
+    //This method is called by the Admin Controller when deleteUser API is called.
     @Transactional(propagation = Propagation.REQUIRED)
     public String deleteUser(String userId, String authorization) throws AuthorizationFailedException, UserNotFoundException {
         final UserAuthEntity userAuthEntity = userBusinessService.validateUserAuthentication(authorization,

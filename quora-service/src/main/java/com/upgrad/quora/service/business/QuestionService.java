@@ -28,7 +28,13 @@ public class QuestionService {
 
     @Autowired
     private QuestionDao questionDao;
+/*
+    The methods in this class use the validateUserAuthentication method to validate the accessToken.
+    If token is valid the required business logic is implemented and the corresponding dao classes are called.
+ */
 
+
+    //The below method creates a question in the DB is the access token is valid
     @Transactional(propagation = Propagation.REQUIRED)
     public Question createQuestion(String authorization, Question questionEntity) throws AuthorizationFailedException {
         UserAuthEntity userAuthEntity = userBusinessService.validateUserAuthentication(authorization, "User is signed out.Sign in first to post a question");
@@ -43,6 +49,7 @@ public class QuestionService {
         return questionDao.getAllQuestions();
     }
 
+    // The below method is called by the Question controller when editQuestion API is called.
     @Transactional(propagation = Propagation.REQUIRED)
     public Question editQuestionContent(String authorization, String questionID, String editedContent) throws AuthorizationFailedException, InvalidQuestionException {
         UserAuthEntity userAuthEntity = userBusinessService.validateUserAuthentication(authorization, "User is signed out.Sign in first to edit the question");
@@ -59,6 +66,7 @@ public class QuestionService {
         return question;
     }
 
+    //This is called by the Question controller when deleteQuestion API is called
     @Transactional(propagation = Propagation.REQUIRED)
     public Question deleteQuestion(String authorization, String questionID) throws AuthorizationFailedException, InvalidQuestionException {
         UserAuthEntity userAuthEntity = userBusinessService.validateUserAuthentication(authorization, "User is signed out.Sign in first to delete the question");
@@ -75,6 +83,7 @@ public class QuestionService {
         return question;
     }
 
+    //This method is called by the Question Controller when the getAllQuestionsByUser endpoint is called
     public List<Question> getAllUserQuestions(String authorization, String userId) throws AuthorizationFailedException, UserNotFoundException {
         UserAuthEntity userAuthEntity = userBusinessService.validateUserAuthentication(authorization, "User is signed out.Sign in first to get all questions posted by a specific user");
         User user = userDao.getUserByUUID(userId);

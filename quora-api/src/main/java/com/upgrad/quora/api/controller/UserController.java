@@ -30,6 +30,7 @@ public class UserController {
     @Autowired
     private UserBusinessService userBusinessService;
 
+    //Implementation for signup API endpoint
     @RequestMapping(method = RequestMethod.POST, path = "/user/signup", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<SignupUserResponse> signup(final SignupUserRequest signupUserRequest) throws SignUpRestrictedException {
         final User user = new User();
@@ -50,6 +51,7 @@ public class UserController {
         return new ResponseEntity<SignupUserResponse>(signupUserResponse, HttpStatus.CREATED);
     }
 
+    //Implementation for signin API endpoint
     @RequestMapping(method = RequestMethod.POST, path = "/user/signin", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<SigninResponse> signin(@RequestHeader("authorization") final String authorization) throws AuthenticationFailedException {
         UserAuthEntity userAuthEntity = userBusinessService.signin(authorization);
@@ -60,6 +62,7 @@ public class UserController {
         return new ResponseEntity<SigninResponse>(signinResponse, httpHeaders, HttpStatus.OK);
     }
 
+    //Implementation for signout API endpoint
     @RequestMapping(method = RequestMethod.POST, path = "/user/signout", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<SignoutResponse> signout(@RequestHeader("authorization") final String authorization) throws SignOutRestrictedException {
         String uuid = userBusinessService.getUserUUID(authorization);

@@ -29,6 +29,12 @@ public class AnswerService {
     @Autowired
     private QuestionDao questionDao;
 
+    /*
+        The methods in this class use the validateUserAuthentication method to validate the accessToken.
+        If token is valid the required business logic is implemented and the corresponding dao classes are called.
+     */
+
+    //This method is called by the Answer Controller when the createAnswer API is called
     @Transactional(propagation = Propagation.REQUIRED)
     public Answer createAnswer(Answer answer, String authorization, String questionId) throws AuthorizationFailedException, InvalidQuestionException {
         UserAuthEntity userAuthEntity = userBusinessService.validateUserAuthentication(authorization, "User is signed out.Sign in first to post an answer");
@@ -45,6 +51,7 @@ public class AnswerService {
 
     }
 
+    //This method is called by the Answer Controller when the editAnswerContent API is called
     @Transactional(propagation = Propagation.REQUIRED)
     public Answer editAnswer(String authorization, String answerId, String newAnswer) throws AnswerNotFoundException, AuthorizationFailedException {
         UserAuthEntity userAuthEntity = userBusinessService.validateUserAuthentication(authorization, "User is signed out.Sign in first to edit an answer");
@@ -61,6 +68,7 @@ public class AnswerService {
         return answer;
     }
 
+    //This method is called by the Answer Controller when the deleteAnswer API is called
     @Transactional(propagation = Propagation.REQUIRED)
     public Answer deleteAnswer( String answerId, String authorization) throws AuthorizationFailedException, AnswerNotFoundException {
         UserAuthEntity userAuthEntity = userBusinessService.validateUserAuthentication(authorization, "User is signed out.Sign in first to delete an answer");
@@ -77,6 +85,7 @@ public class AnswerService {
         }
     }
 
+    //This method is called by the Answer Controller when the getALLAnsewerstoQuestion API is called
     public List<Answer> getAllAnswersToQuestion(String questionId, String authorization) throws AuthorizationFailedException, InvalidQuestionException {
         UserAuthEntity userAuthEntity = userBusinessService.validateUserAuthentication(authorization, "User is signed out.Sign in first to get the answers");
         Question question = questionDao.getQuestionByUuid(questionId);

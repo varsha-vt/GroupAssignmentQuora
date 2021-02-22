@@ -106,6 +106,7 @@ public class UserBusinessService {
         throw new SignOutRestrictedException("SGR-001", "User is not Signed in");
     }
 
+    //Common method that will be used by all endpoints to validate the accessToken
     public UserAuthEntity validateUserAuthentication(String authorization, String athr002Message)
             throws AuthorizationFailedException {
         String[] bearerToken = authorization.split(QuoraUtil.BEARER_TOKEN);

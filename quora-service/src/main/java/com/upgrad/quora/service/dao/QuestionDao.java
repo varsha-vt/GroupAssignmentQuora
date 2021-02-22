@@ -32,14 +32,6 @@ public class QuestionDao {
         entityManager.merge(questionEntity);
     }
 
-    public Question getQuestionByUserId(String userId) {
-        try {
-            return entityManager.createNamedQuery("questionByUserId", Question.class).setParameter("userId", userId).getSingleResult();
-        } catch (NoResultException nre) {
-            return null;
-        }
-    }
-
     public Question getQuestionByUuid(String uuid) {
         try {
             return entityManager.createNamedQuery("questionByUUID", Question.class).setParameter("uuid", uuid).getSingleResult();

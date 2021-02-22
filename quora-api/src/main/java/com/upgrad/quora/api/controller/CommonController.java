@@ -18,6 +18,7 @@ public class CommonController {
     @Autowired
     private UserBusinessService userBusinessService;
 
+    //API endpoint to get the details of any user in the Quora Application.
     @RequestMapping(method = RequestMethod.GET, path = "/userprofile/{userId}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<UserDetailsResponse> getUser(@PathVariable("userId") final String userId, @RequestHeader("authorization") final String authorization) throws AuthorizationFailedException, UserNotFoundException {
         final User user = userBusinessService.getUser(userId, authorization);
