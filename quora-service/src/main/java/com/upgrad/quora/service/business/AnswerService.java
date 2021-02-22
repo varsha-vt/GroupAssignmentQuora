@@ -2,7 +2,6 @@ package com.upgrad.quora.service.business;
 
 import com.upgrad.quora.service.dao.AnswerDao;
 import com.upgrad.quora.service.dao.QuestionDao;
-import com.upgrad.quora.service.dao.UserDao;
 import com.upgrad.quora.service.entity.Answer;
 import com.upgrad.quora.service.entity.Question;
 import com.upgrad.quora.service.entity.UserAuthEntity;
@@ -20,9 +19,6 @@ import java.util.UUID;
 
 @Service
 public class AnswerService {
-
-    @Autowired
-    private UserDao userDao;
 
     @Autowired
     private UserBusinessService userBusinessService;

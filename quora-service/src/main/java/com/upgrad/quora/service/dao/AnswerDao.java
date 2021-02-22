@@ -32,7 +32,6 @@ public class AnswerDao {
         entityManager.merge(answer);
     }
 
-    //Validate this before push can we pass answer object instead of string
     public Answer deleteAnswer( String answerId) {
         Answer deleteAnswer = getAnswerId(answerId);
         if (deleteAnswer != null) {
